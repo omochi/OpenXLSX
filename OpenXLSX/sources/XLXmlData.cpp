@@ -181,3 +181,12 @@ const XMLDocument* XLXmlData::getXmlDocument() const
 
     return m_xmlDoc.get();
 }
+
+
+XLXmlData::XLXmlData(const XLXmlData &o) {
+    std::abort();
+}
+
+XLXmlData& XLXmlData::operator=(const XLXmlData& o) {
+    std::abort();
+}
