@@ -541,6 +541,8 @@ namespace OpenXLSX
          */
         bool setRowFormat(uint32_t row, XLStyleIndex cellFormatIndex);
 
+        std::string extList() const;
+        void setExtList(const std::string & xml);
     private:
 
         /**
