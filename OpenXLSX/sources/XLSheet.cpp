@@ -45,6 +45,7 @@ YM      M9  MM    MM MM       MM    MM   d'  `MM.    MM            MM   d'  `MM.
 
 // ===== External Includes ===== //
 #include <algorithm>
+#include <sstream>
 #include <pugixml.hpp>
 
 // ===== OpenXLSX Includes ===== //
@@ -754,6 +755,26 @@ bool XLWorksheet::setRowFormat(uint32_t rowNumber, XLStyleIndex cellFormatIndex)
         if (!cellIt->setCellFormat(cellFormatIndex)) // attempt to set cell format
             return false;
     return true; // if loop finished nominally: success
+}
+
+std::string XLWorksheet::extList() const {
+    XMLNode root = xmlDocument().document_element();
+    XMLNode node = root.child("extLst");
+    if (!node) {
+        node = root.append_child("extLst");
+    }
+    std::ostringstream xml;
+    node.print(xml);
+    return xml.str();
+}
+
+void XLWorksheet::setExtList(const std::string & xml) {
+    XMLNode root = xmlDocument().document_element();
+    while (root.remove_child("extLst")) {}
+    pugi::xml_parse_result result = root.append_buffer(xml.data(), xml.length(), pugi::parse_default, pugi::encoding_utf8);
+    if (!result) {
+        throw XLException(result.description());
+    }
 }
 
 /**
